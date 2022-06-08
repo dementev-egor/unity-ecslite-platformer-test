@@ -1,0 +1,16 @@
+{
+    "name": "UnityPart",
+    "rootNamespace": "",
+    "references": [
+        "GUID:390d8ba084c583645ab07ff7042d378a"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
