@@ -1,4 +1,5 @@
-﻿using Leopotam.EcsLite;
+﻿using EcsLogic.Systems;
+using Leopotam.EcsLite;
 
 namespace EcsLogic
 {
@@ -7,10 +8,14 @@ namespace EcsLogic
         private EcsWorld _world;
         private EcsSystems _systems;
         
-        public void Initialize()
+        public void Initialize(SharedData data)
         {
             _world = new EcsWorld();
-            _systems = new EcsSystems(_world);
+            _systems = new EcsSystems(_world, data);
+            
+            _systems
+                .Add(new PlayerMovementSystem())
+                .Init();
         }
 
         public void Run()
