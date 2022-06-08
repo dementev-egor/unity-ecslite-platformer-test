@@ -4,47 +4,37 @@ using Leopotam.EcsLite;
 
 namespace EcsLogic.Systems
 {
-    public class PlayerMovementSystem : IEcsInitSystem, IEcsRunSystem, IEcsDestroySystem
+    public class PlayerMovementSystem : IEcsInitSystem, IEcsRunSystem
     {
-        private EcsWorld _world;
         private SharedData _sharedData;
-        private int _player;
-        private EcsPool<PlayerPositionComponent> _pool;
 
         public void Init(EcsSystems systems)
         {
-            _world = systems.GetWorld();
             _sharedData = systems.GetShared<SharedData>();
-            _pool = _world.GetPool<PlayerPositionComponent>();
-            _player = _world.NewEntity();
-            _pool.Add(_player);
         }
 
         public void Run(EcsSystems systems)
         {
-            ref var pos = ref _pool.Get(_player);
+            var world = systems.GetWorld();
+            var pool = world.GetPool<PlayerPositionComponent>();
+            var filter = world.Filter<PlayerPositionComponent>().End();
 
-            var destination = _sharedData.DestinationPlayerPosition - pos.Position;
+            foreach (var entity in filter)
+            {
+                ref var pos = ref pool.Get(entity);
+
+                var destination = _sharedData.DestinationPlayerPosition - pos.Position;
             
-            if (destination.Length() < .1f)
-                return;
+                if (destination.Length() < .1f)
+                    return;
 
-            var delta = Vector3.Normalize(destination) * _sharedData.PlayerSpeed;
-            pos.Position += delta;
+                var delta = Vector3.Normalize(destination) * _sharedData.PlayerSpeed;
+                pos.Position += delta;
 
 #if UNITY_EDITOR
-            var playerTransformPosition = _sharedData.PlayerTransform.position;
-            playerTransformPosition.x = pos.Position.X;
-            playerTransformPosition.y = pos.Position.Y;
-            playerTransformPosition.z = pos.Position.Z;
-            _sharedData.PlayerTransform.position = playerTransformPosition;
+                _sharedData.PlayerMoveCallback?.Invoke(pos.Position);
 #endif
-        }
-
-        public void Destroy(EcsSystems systems)
-        {
-            _world.DelEntity(_player);
-            _world = null;
+            }
         }
     }
 }

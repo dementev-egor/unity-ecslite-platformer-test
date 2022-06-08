@@ -2,7 +2,8 @@
     "name": "EcsPart",
     "rootNamespace": "",
     "references": [
-        "GUID:e59bf9fc7d5a44b18a819a92edd46163"
+        "GUID:e59bf9fc7d5a44b18a819a92edd46163",
+        "GUID:59fa0b67c18194c48ae258955aaf8439"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

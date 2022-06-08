@@ -2,7 +2,8 @@
     "name": "UnityPart",
     "rootNamespace": "",
     "references": [
-        "GUID:390d8ba084c583645ab07ff7042d378a"
+        "GUID:390d8ba084c583645ab07ff7042d378a",
+        "GUID:59fa0b67c18194c48ae258955aaf8439"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

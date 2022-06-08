@@ -4,7 +4,7 @@ namespace UnityPart
 {
     public class ClicksHandler : MonoBehaviour
     {
-        public delegate void OnMouseClickedDelegate(float x, float y, float z);
+        public delegate void OnMouseClickedDelegate(Vector3 worldPosition);
 
         public event OnMouseClickedDelegate OnMouseClicked;
         
@@ -45,7 +45,7 @@ namespace UnityPart
             if (hitPoint == null)
                 return;
 
-            OnMouseClicked?.Invoke(hitPoint.Value.x, hitPoint.Value.y, hitPoint.Value.z);
+            OnMouseClicked?.Invoke(hitPoint.Value);
         }
     }
 }
