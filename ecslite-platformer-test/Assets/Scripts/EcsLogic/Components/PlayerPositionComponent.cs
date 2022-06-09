@@ -4,6 +4,6 @@ namespace EcsLogic.Components
 {
     public struct PlayerPositionComponent
     {
-        public Vector3 Position;
+        public Vector3 CurrentPosition;
     }
 }

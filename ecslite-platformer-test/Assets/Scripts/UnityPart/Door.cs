@@ -1,9 +1,9 @@
-﻿using Utils;
-using UnityEngine;
+﻿using UnityEngine;
+using Utils;
 
 namespace UnityPart
 {
-    public class Player : MonoBehaviour
+    public class Door : MonoBehaviour
     {
         private Transform _transform;
 

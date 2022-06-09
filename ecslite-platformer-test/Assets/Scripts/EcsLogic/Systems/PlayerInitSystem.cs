@@ -17,7 +17,7 @@ namespace EcsLogic.Systems
             ref var pos = ref pool.Add(_player);
 
             var sharedData = systems.GetShared<SharedData>();
-            pos.Position = sharedData.DestinationPlayerPosition;
+            pos.CurrentPosition = sharedData.DestinationPlayerPosition;
         }
 
         public void Destroy(EcsSystems systems)

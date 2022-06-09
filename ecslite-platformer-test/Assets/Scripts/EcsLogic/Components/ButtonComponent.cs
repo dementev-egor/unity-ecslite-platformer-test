@@ -2,8 +2,9 @@
 
 namespace EcsLogic.Components
 {
-    public struct ButtonPositionComponent
+    public struct ButtonComponent
     {
         public Vector3 Position;
+        public int ConnectedDoor;
     }
 }

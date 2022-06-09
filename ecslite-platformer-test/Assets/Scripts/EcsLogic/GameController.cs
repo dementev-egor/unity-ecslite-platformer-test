@@ -14,9 +14,10 @@ namespace EcsLogic
             _systems = new EcsSystems(_world, data);
             
             _systems
-                .Add(new ButtonInitSystem())
+                .Add(new ButtonDoorsInitSystem())
                 .Add(new PlayerInitSystem())
                 .Add(new PlayerMovementSystem())
+                .Add(new PlayerOnButtonSystem())
                 .Init();
         }
 

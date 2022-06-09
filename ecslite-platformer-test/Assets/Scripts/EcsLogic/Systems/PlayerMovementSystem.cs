@@ -19,22 +19,20 @@ namespace EcsLogic.Systems
             var pool = world.GetPool<PlayerPositionComponent>();
             var filter = world.Filter<PlayerPositionComponent>().End();
 
-            foreach (var entity in filter)
-            {
-                ref var pos = ref pool.Get(entity);
+            var player = filter.GetRawEntities()[0];
+            ref var pos = ref pool.Get(player);
 
-                var destination = _sharedData.DestinationPlayerPosition - pos.Position;
+            var destination = _sharedData.DestinationPlayerPosition - pos.CurrentPosition;
             
-                if (destination.Length() < .1f)
-                    return;
+            if (destination.Length() < .1f)
+                return;
 
-                var delta = Vector3.Normalize(destination) * _sharedData.PlayerSpeed;
-                pos.Position += delta;
+            var delta = Vector3.Normalize(destination) * _sharedData.PlayerSpeed;
+            pos.CurrentPosition += delta;
 
 #if UNITY_EDITOR
-                _sharedData.PlayerMoveCallback?.Invoke(pos.Position);
+            _sharedData.PlayerMoveCallback?.Invoke(pos.CurrentPosition);
 #endif
-            }
         }
     }
 }

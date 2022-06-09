@@ -1,4 +1,5 @@
-﻿using DefaultNamespace;
+﻿using System;
+using Utils;
 using EcsLogic;
 using UnityEngine;
 
@@ -10,30 +11,55 @@ namespace UnityPart
         private Player player;
         [SerializeField, Range(.01f, 1)]
         private float playerSpeed;
-        [Header("Buttons"), SerializeField]
-        private Transform[] buttons;
+        [Header("Buttons and doors"), SerializeField]
+        private ButtonDoorPair[] buttonDoorPairs;
+        [SerializeField, Range(.1f, 3)]
+        private float buttonsRadius = 1;
+        [SerializeField, Range(.01f, 1)]
+        private float doorsOpenSpeed;
         [Header("Other"), SerializeField]
         private ClicksHandler clicksHandler;
         
         private EcsLogic.GameController _gameController;
         private SharedData _sharedData;
 
+#if UNITY_EDITOR
+        private void OnDrawGizmos()
+        {
+            foreach (var pair in buttonDoorPairs)
+            {
+                Gizmos.DrawWireSphere(pair.Button.position, buttonsRadius);
+            }
+        }
+#endif
+        
         private void Awake()
         {
             var playerPosition = player.transform.position;
-            var buttonsPositions = new System.Numerics.Vector3[buttons.Length];
+            var pairs = new EcsLogic.ButtonDoorPair[buttonDoorPairs.Length];
 
-            for (int i = 0; i < buttonsPositions.Length; i++)
-                buttonsPositions[i] = buttons[i].position.ToSystemV3();
+            for (int i = 0; i < pairs.Length; i++)
+            {
+                var p = buttonDoorPairs[i];
+                
+                pairs[i] = new EcsLogic.ButtonDoorPair
+                {
+                    ButtonPosition = p.Button.position.ToSystemV3(),
+                    DoorPosition = p.Door.transform.position.ToSystemV3(),
+                    DoorMoveCallback = p.Door.SetPosition,
+                };
+            }
 
             _gameController = new EcsLogic.GameController();
             _sharedData = new SharedData
             {
-                PlayerMoveCallback = player.SetPosition,
                 DestinationPlayerPosition = playerPosition.ToSystemV3(),
                 PlayerSpeed = playerSpeed,
+                PlayerMoveCallback = player.SetPosition,
                 
-                ButtonsPosition = buttonsPositions,
+                ButtonDoorPairs = pairs,
+                ButtonsRadius = buttonsRadius,
+                DoorsOpenSpeed = doorsOpenSpeed,
             };
             
             _gameController.Initialize(_sharedData);
