@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-namespace UnityPart
+namespace UnityPart.Objects
 {
     public class Floor : MonoBehaviour
     {
-        
     }
 }
